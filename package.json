@@ -1,7 +1,7 @@
 {
-  "name": "template.typescript",
-  "version": "0.0.0",
-  "description": "TypeScript Template.",
+  "name": "@rester/orm",
+  "version": "0.1.0",
+  "description": "Rester ORM Framework.",
   "main": "dist/index.js",
   "directories": {
     "doc": "docs",
@@ -33,9 +33,14 @@
   ],
   "author": "IInfinity <I.INF@Outlook.com> (https://blog.don.red/)",
   "license": "MIT",
-  "private": true,
+  "private": false,
+  "dependencies": {
+    "mongodb": "^3.6.5",
+    "reflect-metadata": "^0.1.13"
+  },
   "devDependencies": {
     "@types/jasmine": "3.6.7",
+    "@types/mongodb": "^3.6.10",
     "@types/node": "14.14.35",
     "@typescript-eslint/eslint-plugin": "4.19.0",
     "@typescript-eslint/parser": "4.19.0",
@@ -53,10 +58,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DevinDon/template.git"
+    "url": "git+https://github.com/DevinDon/rester-orm.git"
   },
   "bugs": {
-    "url": "https://github.com/DevinDon/template/issues"
+    "url": "https://github.com/DevinDon/rester-orm/issues"
   },
-  "homepage": "https://github.com/DevinDon/template/tree/typescript"
+  "homepage": "https://github.com/DevinDon/rester-orm"
 }

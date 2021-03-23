@@ -1,11 +1,8 @@
-type Name = string;
+import 'reflect-metadata';
 
-export function hello(name: Name): string {
-  return `Hello, ${name}!`;
-}
-
-export async function asyncHello(name: Name): Promise<string> {
-  return `Hello, ${name}!`;
-}
-
-process.stdout.write(hello('world'));
+export * from './constants';
+export * from './core';
+export * from './decorators';
+export * from './exceptions';
+export * from './interfaces';
+export * from './utils';
