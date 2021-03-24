@@ -35,6 +35,7 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
+    "@iinfinity/logger": "^0.3.4",
     "mongodb": "^3.6.5",
     "reflect-metadata": "^0.1.13"
   },

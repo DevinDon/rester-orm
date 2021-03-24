@@ -3,6 +3,12 @@ import { PropertyType } from '../interfaces';
 
 export interface ColumnConfig {
 
+  /** column name */
+  name: string;
+
+  /** column type */
+  type: PropertyType;
+
   /** is index column */
   index?: boolean;
 
@@ -11,14 +17,8 @@ export interface ColumnConfig {
 
 }
 
-export interface ColumnDeclaration {
-  key: string | symbol;
-  type: PropertyType;
-  config: ColumnConfig;
-}
-
-export const Column = (config: ColumnConfig = {}): PropertyDecorator => (target, key) => {
+export const Column = ({ name, ...config }: Partial<Omit<ColumnConfig, 'type'>> = {}): PropertyDecorator => (target, key) => {
   const type: PropertyType = Reflect.getMetadata('design:type', target, key).name;
-  const exists: ColumnDeclaration[] = Reflect.getMetadata(MetadataKey.Column, target) ?? [];
-  Reflect.defineMetadata(MetadataKey.Column, [...exists, { key, type, config }], target);
+  const exists: ColumnConfig[] = Reflect.getMetadata(MetadataKey.Column, target.constructor) ?? [];
+  Reflect.defineMetadata(MetadataKey.Column, [...exists, { name: name ?? key, type, ...config }], target.constructor);
 };
