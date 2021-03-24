@@ -4,7 +4,7 @@ import { ColumnConfig, EntityConfig } from '../decorators';
 import { EntityInjector } from './injector';
 import { DEFAULT_ORMCONFIG, ResterORMConfig } from './orm.config';
 
-export interface Connection {
+export interface ResterORMConnection {
   name: string;
   client: MongoClient;
   database: Db;
@@ -12,8 +12,8 @@ export interface Connection {
 
 export class ResterORM {
 
-  private readonly configs: ResterORMConfig[] = [];
-  private connections: Connection[] = [];
+  public readonly configs: ResterORMConfig[] = [];
+  public connections: ResterORMConnection[] = [];
 
   constructor(configs: ResterORMConfig[]) {
     this.configs = configs.map(config => Object.assign({}, DEFAULT_ORMCONFIG, config));
