@@ -30,6 +30,7 @@ export class ResterORM {
           }
           // get collection config & create
           const { name: collection, ...entityConfig }: EntityConfig = Reflect.getMetadata(MetadataKey.Entity, entity);
+          database.collection(collection).dropIndexes();
           database.collection(collection).drop();
           database.createCollection(collection, entityConfig);
           // get column config & create

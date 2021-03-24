@@ -4,7 +4,7 @@ export class EntityInjector {
 
   private static storage: Map<typeof BaseEntity, any> = new Map();
 
-  public static inject(target: typeof BaseEntity) {
+  public static inject<TEntity extends typeof BaseEntity>(target: TEntity) {
     if (!EntityInjector.storage.has(target)) {
       EntityInjector.storage.set(target, new target());
     }

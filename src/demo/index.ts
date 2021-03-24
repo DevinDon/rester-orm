@@ -1,3 +1,4 @@
+import { Collection } from 'mongodb';
 import { Column, Entity, getEntity, MongoEntity, ResterORM } from '../main';
 
 interface ABC {
@@ -8,10 +9,12 @@ interface ABC {
 @Entity({ name: 'abc' })
 class ABCEntity extends MongoEntity<ABC> implements ABC {
 
-  @Column({ index: true, unique: true })
+  collection: Collection<ABC>;
+
+  @Column()
   test: string;
 
-  @Column({ index: true })
+  @Column()
   time: Date;
 
   findOneWhichTestIsAlice() {
@@ -34,7 +37,10 @@ class ABCEntity extends MongoEntity<ABC> implements ABC {
   const databases = await orm.bootstrap();
   const entity: ABCEntity = getEntity(ABCEntity);
   const collection = entity.collection;
-  const result = await collection.insertOne({ test: 'Alice', time: new Date() });
+  for (let i = 0; i < 100; i++) {
+    const result = await collection.insertOne({ test: 'Alice', time: new Date() });
+  }
   const found = await collection.findOne({ test: 'Alice' });
   const customFound = await entity.findOneWhichTestIsAlice();
+  const page = await entity.getPagination();
 })();
