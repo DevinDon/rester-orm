@@ -17,7 +17,10 @@ export class ResterORM {
   public connections: ResterORMConnection[] = [];
 
   constructor(configs: ResterORMConfig[]) {
-    this.configs = configs.map(config => Object.assign({}, DEFAULT_ORMCONFIG, config));
+    this.configs = configs
+      .map(config => Object.assign({}, DEFAULT_ORMCONFIG, config));
+    this.configs
+      .forEach(config => config.entities = config.entities ?? []);
   }
 
   private async init() {
