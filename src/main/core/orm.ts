@@ -23,7 +23,7 @@ export class ResterORM {
   private async init() {
     this.configs.forEach(({ database: name, entities }) => {
       entities
-        .forEach(entity => {
+        .forEach(async entity => {
           // get database
           const { database } = this.connections.find(connection => connection.name === name) || {};
           if (!database) {
@@ -31,15 +31,20 @@ export class ResterORM {
           }
           // get collection config & create
           const { name: collection, ...entityConfig }: EntityConfig = Reflect.getMetadata(MetadataKey.Entity, entity);
-          Promise.all([
-            database.collection(collection).dropIndexes(),
-            database.collection(collection).drop(),
-          ]).catch(error => logger.warn(`Collection ${collection} does not exist, detail:`, error));
-          database.createCollection(collection, entityConfig);
+          await database.collection(collection)
+            .dropIndexes()
+            .catch(error => logger.warn(`Collection ${collection} drop indexes failed, detail:`, error));
+          await database.collection(collection)
+            .drop()
+            .catch(error => logger.warn(`Collection ${collection} drop failed, detail:`, error));
+          await database.createCollection(collection, entityConfig)
+            .catch(error => logger.warn(`Collection ${collection} create failed, detail:`, error));
           // get column config & create
           const columnConfigs: ColumnConfig[] = Reflect.getMetadata(MetadataKey.Column, entity);
-          for (const { name: column, index, unique } of columnConfigs) {
-            index && database.collection(collection).createIndex({ [column]: 1 }, { unique });
+          for await (const { name: column, index, unique } of columnConfigs) {
+            index && await database.collection(collection)
+              .createIndex({ [column]: 1 }, { unique })
+              .catch(error => logger.warn(`Collection ${collection} create index ${column} failed, detail:`, error));
           }
           // inject instance
           EntityInjector.inject(entity).collection = database.collection(collection);
