@@ -1,3 +1,4 @@
+import { logger } from '@iinfinity/logger';
 import { Db, MongoClient } from 'mongodb';
 import { MetadataKey } from '../constants';
 import { ColumnConfig, EntityConfig } from '../decorators';
@@ -30,8 +31,10 @@ export class ResterORM {
           }
           // get collection config & create
           const { name: collection, ...entityConfig }: EntityConfig = Reflect.getMetadata(MetadataKey.Entity, entity);
-          database.collection(collection).dropIndexes();
-          database.collection(collection).drop();
+          Promise.all([
+            database.collection(collection).dropIndexes(),
+            database.collection(collection).drop(),
+          ]).catch(error => logger.warn(`Collection ${collection} does not exist, detail:`, error));
           database.createCollection(collection, entityConfig);
           // get column config & create
           const columnConfigs: ColumnConfig[] = Reflect.getMetadata(MetadataKey.Column, entity);
