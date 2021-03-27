@@ -21,5 +21,4 @@ export const DEFAULT_ORMCONFIG: Partial<ResterORMConfig> = {
   port: 27017,
   logger: isProd() ? Level.INFO : Level.ALL,
   authSource: 'admin',
-  sync: !isProd(),
 };

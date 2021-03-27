@@ -24,29 +24,31 @@ export class ResterORM {
   }
 
   private async init() {
-    for await (const { database: name, entities } of this.configs) {
+    for await (const { database: name, entities, sync } of this.configs) {
       const tasks = entities.map(async entity => {
         // get database
         const { database } = this.connections.find(connection => connection.name === name) || {};
         if (!database) {
           throw new Error(`Connection with database ${name} not exist.`);
         }
-        // get collection config & create
+        // get collection name & config
         const { name: collection, ...entityConfig }: EntityConfig = Reflect.getMetadata(MetadataKey.Entity, entity);
-        await database.collection(collection)
-          .dropIndexes()
-          .catch(error => logger.warn(`Collection ${collection} drop indexes failed, detail:`, error));
-        await database.collection(collection)
-          .drop()
-          .catch(error => logger.warn(`Collection ${collection} drop failed, detail:`, error));
-        await database.createCollection(collection, entityConfig)
-          .catch(error => logger.warn(`Collection ${collection} create failed, detail:`, error));
-        // get column config & create
-        const columnConfigs: ColumnConfig[] = Reflect.getMetadata(MetadataKey.Column, entity);
-        for await (const { name: column, index, unique } of columnConfigs) {
-          index && await database.collection(collection)
-            .createIndex({ [column]: 1 }, { unique })
-            .catch(error => logger.warn(`Collection ${collection} create index ${column} failed, detail:`, error));
+        // get collection config & create
+        if (sync) {
+          // backup previous collection
+          await database.collection(collection).rename(`${collection}-backup-${Date.now()}`)
+            .catch(error => logger.debug(`Collection ${collection} backup failed, maybe previous database doesn't exist.`));
+          // create collection
+          await database.createCollection(collection, entityConfig)
+            .catch(error => logger.warn(`Collection ${collection} create failed, detail:`, error));
+          // get column config
+          const columnConfigs: ColumnConfig[] = Reflect.getMetadata(MetadataKey.Column, entity);
+          // create indexes
+          for await (const { name: column, index, unique } of columnConfigs) {
+            index && await database.collection(collection)
+              .createIndex({ [column]: 1 }, { unique })
+              .catch(error => logger.warn(`Collection ${collection} create index ${column} failed, detail:`, error));
+          }
         }
         // inject instance
         EntityInjector.inject(entity).collection = database.collection(collection);

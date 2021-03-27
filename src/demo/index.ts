@@ -11,7 +11,7 @@ class ABCEntity extends MongoEntity<ABC> implements ABC {
 
   collection: Collection<ABC>;
 
-  @Column()
+  @Column({ index: true })
   test: string;
 
   @Column()
