@@ -19,6 +19,7 @@
     "pack": "npm run build && npm run push",
     "push": "bash script/push.sh",
     "prepublishOnly": "npm run clean && tsc",
+    "postpublish": "sleep 1 && curl https://npm.taobao.org/sync/@rester/orm",
     "start": "npm run start:dev",
     "start:debug": "node --inspect-brk -r ts-node/register src/main/index.ts",
     "start:demo": "cross-env MODE=DEV node -r ts-node/register src/demo/index.ts",
