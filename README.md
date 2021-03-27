@@ -2,7 +2,7 @@
 
 Rester ORM.
 
-You should install `mongodb` & `@iinfinity/logger`(will be replace with `@rester/logger`) in your project.
+You should install `mongodb` & `@rester/logger` in your project.
 
 # [THE MIT LICENSE](https://raw.githubusercontent.com/DevinDon/license/master/THE%20MIT%20LICENSE)
 

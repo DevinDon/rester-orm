@@ -1,4 +1,4 @@
-import { Level } from '@iinfinity/logger';
+import { Level } from '@rester/logger';
 import { isProd } from '../utils';
 import { BaseEntity } from './base.entity';
 

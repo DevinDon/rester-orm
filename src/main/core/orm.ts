@@ -1,4 +1,4 @@
-import { logger } from '@iinfinity/logger';
+import { logger } from '@rester/logger';
 import { Db, MongoClient } from 'mongodb';
 import { MetadataKey } from '../constants';
 import { ColumnConfig, EntityConfig } from '../decorators';
