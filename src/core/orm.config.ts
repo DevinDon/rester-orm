@@ -12,6 +12,7 @@ export interface ResterORMConfig {
   logger?: Level;
   authSource?: string;
   sync?: boolean;
+  backup?: boolean;
   entities: typeof BaseEntity[];
 }
 

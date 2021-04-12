@@ -24,7 +24,7 @@ export class ResterORM {
   }
 
   private async init() {
-    for await (const { database: name, entities, sync } of this.configs) {
+    for await (const { database: name, entities, sync, backup } of this.configs) {
       const tasks = entities.map(async entity => {
         // get database
         const { database } = this.connections.find(connection => connection.name === name) || {};
@@ -35,9 +35,15 @@ export class ResterORM {
         const { name: collection, ...entityConfig }: EntityConfig = Reflect.getMetadata(MetadataKey.Entity, entity);
         // get collection config & create
         if (sync) {
-          // backup previous collection
-          await database.collection(collection).rename(`${collection}-backup-${Date.now()}`)
-            .catch(error => logger.debug(`Collection ${collection} backup failed, maybe previous database doesn't exist.`));
+          if (backup) {
+            // backup previous collection
+            await database.collection(collection).rename(`${collection}-backup-${Date.now()}`)
+              .catch(error => logger.debug(`Collection ${collection} backup failed, maybe previous collection doesn't exist.`));
+          } else {
+            // or drop indexes
+            await database.collection(collection).dropIndexes()
+              .catch(error => logger.debug(`Collection ${collection} drop indexes failed, maybe previous collection doesn't exist.`));
+          }
           // create collection
           await database.createCollection(collection, entityConfig)
             .catch(error => logger.warn(`Collection ${collection} create failed, detail:`, error));
@@ -57,6 +63,9 @@ export class ResterORM {
     }
   }
 
+  /**
+   * Startup Rester ORM, connect to database(s) & init database(s).
+   */
   async bootstrap() {
     const clients = this.configs
       .map(({ username, password, host, port, database, authSource }) => ({
@@ -78,6 +87,9 @@ export class ResterORM {
     return this.connections;
   }
 
+  /**
+   * Close all connections & shutdown Rester ORM.
+   */
   async shutdown(force: boolean = false) {
     this.connections.forEach(({ client }) => client.close(force));
   }
