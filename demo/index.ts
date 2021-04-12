@@ -1,5 +1,5 @@
 import { Collection } from 'mongodb';
-import { Column, Entity, getEntity, MongoEntity, ResterORM } from '../main';
+import { Column, Entity, getEntity, MongoEntity, ResterORM } from '../src';
 
 interface ABC {
   test: string;
@@ -9,7 +9,7 @@ interface ABC {
 @Entity({ name: 'abc' })
 class ABCEntity extends MongoEntity<ABC> implements ABC {
 
-  collection: Collection<ABC>;
+  declare collection: Collection<ABC>;
 
   @Column({ index: true })
   test: string;

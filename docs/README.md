@@ -1,32 +1,5 @@
-# README
+# Rester ORM
 
-# Debug
+## 支持的新特性
 
-If you use VSCode, try below code to debug your project:
-
-```json
-{
-  // Use IntelliSense to learn about possible attributes.
-  // Hover to view descriptions of existing attributes.
-  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-  "version": "0.2.0",
-  "configurations": [
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "Debug: Currect File",
-      "runtimeArgs": [
-        "-r",
-        "ts-node/register"
-      ],
-      "args": [
-        "${relativeFile}"
-      ],
-      "sourceMaps": true,
-      "cwd": "${workspaceFolder}",
-      "protocol": "inspector"
-    }
-  ]
-}
-
-```
+1. 连接数据库，当配置为空时，默认不连接

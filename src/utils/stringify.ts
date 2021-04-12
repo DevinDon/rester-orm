@@ -1,4 +1,4 @@
-export const stringify = <T>(param: T) => {
+export const stringify = (param: any) => {
   if (Object.prototype.hasOwnProperty.call(param, 'toHexString')) {
     return param['toHexString']();
   }
