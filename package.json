@@ -1,6 +1,6 @@
 {
   "name": "@rester/orm",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "Rester ORM Framework.",
   "main": "dist/index.js",
   "directories": {
