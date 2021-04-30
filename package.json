@@ -35,28 +35,24 @@
   "private": false,
   "dependencies": {
     "aws4": "1.11.0",
+    "mongodb": "3.6.6",
     "mongodb-client-encryption": "1.2.3",
-    "reflect-metadata": "0.1.13"
+    "reflect-metadata": "0.1.13",
+    "saslprep": "1.0.3"
   },
   "devDependencies": {
-    "@rester/logger": "0.2.1",
-    "@types/jasmine": "3.6.9",
+    "@rester/logger": "0.2.2",
+    "@types/jasmine": "3.6.10",
     "@types/mongodb": "3.6.12",
-    "@types/node": "14.14.37",
-    "@typescript-eslint/eslint-plugin": "4.21.0",
-    "@typescript-eslint/parser": "4.21.0",
-    "clean-webpack-plugin": "3.0.0",
-    "copy-webpack-plugin": "8.1.1",
+    "@types/node": "15.0.1",
+    "@typescript-eslint/eslint-plugin": "4.22.0",
+    "@typescript-eslint/parser": "4.22.0",
     "cross-env": "7.0.3",
-    "eslint": "7.24.0",
+    "eslint": "7.25.0",
     "jasmine": "3.7.0",
     "jasmine-console-reporter": "3.1.0",
-    "mongodb": "3.6.6",
-    "ts-loader": "8.1.0",
     "ts-node": "9.1.1",
-    "typescript": "4.2.4",
-    "webpack": "5.31.2",
-    "webpack-cli": "4.6.0"
+    "typescript": "4.2.4"
   },
   "repository": {
     "type": "git",
