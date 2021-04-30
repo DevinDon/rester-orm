@@ -1,5 +1,4 @@
 import 'reflect-metadata';
-import 'saslprep';
 
 export * from './constants';
 export * from './core';
