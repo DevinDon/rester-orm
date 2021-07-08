@@ -36,7 +36,7 @@
   "dependencies": {
     "aws4": "1.11.0",
     "mongodb": "3.6.6",
-    "mongodb-client-encryption": "1.2.3",
+    "mongodb-client-encryption": "1.2.5",
     "reflect-metadata": "0.1.13",
     "saslprep": "1.0.3"
   },
